@@ -96,6 +96,13 @@ async function run() {
 			// console.log("order items", orderItems);
 			res.send(orderItems);
 		})
+		// GET API for REVIEW
+		app.get('/review', async (req, res) => {
+			const cursor = usersReview.find();
+			const review = await cursor.toArray();
+			console.log("order items", review);
+			res.send(review);
+		})
 
 		// GET API for ordered data FOR SPECIFIC USER
 		// app.get('/orderItems/:email', async (req, res) => {
