@@ -21,7 +21,6 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 async function run() {
 	try {
 		await client.connect();
-		console.log('connected to database')
 		const database = client.db('bdHeadphonesHub');
 		const productsCollection = database.collection('products');
 		const productOrderItems = database.collection('orderItems');
@@ -76,7 +75,6 @@ async function run() {
 		app.get('/products', async (req, res) => {
 			const cursor = productsCollection.find();
 			const products = await cursor.toArray();
-			console.log("this is products", products);
 			res.send(products);
 		})
 
@@ -91,7 +89,6 @@ async function run() {
 		app.get('/review', async (req, res) => {
 			const cursor = usersReview.find();
 			const review = await cursor.toArray();
-			console.log("order items", review);
 			res.send(review);
 		})
 
@@ -117,7 +114,6 @@ async function run() {
 			const id = req.params.id;
 			const query = { _id: ObjectId(id) };
 			const order = await productOrderItems.findOne(query);
-			console.log("Getiing deleted item show", order);
 			res.json(order);
 		})
 
@@ -138,7 +134,6 @@ async function run() {
 		// POST API FOR REVIEW
 		app.post('/review', async (req, res) => {
 			const review = req.body;
-			console.log("hit the post api of REVIEW", review);
 			const result = await usersReview.insertOne(review);
 			res.json(result);
 		});
