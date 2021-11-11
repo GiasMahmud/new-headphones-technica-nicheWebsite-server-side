@@ -27,6 +27,7 @@ async function run() {
 		const productsCollection = database.collection('products');
 		const productOrderItems = database.collection('orderItems');
 		const usersCollection = database.collection('users');
+		const usersReview = database.collection('review');
 
 
 		/*---------------------------------------
@@ -42,11 +43,9 @@ async function run() {
 			const updateDoc = { $set: { role: 'admin' } };
 			const result = await usersCollection.updateOne(filter, updateDoc);
 			res.json(result);
-
-
-
-
 		})
+
+
 
 		// CHECK WHETHER ADMIN
 		app.get('/users/:email', async (req, res) => {
@@ -68,7 +67,7 @@ async function run() {
 		app.post('/users', async (req, res) => {
 			const user = req.body;
 			const result = await usersCollection.insertOne(user);
-			console.log(user);
+			// console.log(user);
 			res.json(result);
 		})
 		// UPSERT
@@ -94,7 +93,7 @@ async function run() {
 		app.get('/orderItems', async (req, res) => {
 			const cursor = productOrderItems.find();
 			const orderItems = await cursor.toArray();
-			console.log("order items", orderItems);
+			// console.log("order items", orderItems);
 			res.send(orderItems);
 		})
 
@@ -108,8 +107,6 @@ async function run() {
 		// GET API 
 		app.get('/orderItems/:email', async (req, res) => {
 			const email = req.params.email;
-			console.log("query is", req.query);
-			console.log("params is", req.query);
 			const query = { email: email }
 			const cursor = productOrderItems.find(query);
 			const appointments = await cursor.toArray();
@@ -121,7 +118,7 @@ async function run() {
 		//GET SUINGLE ITEM
 		app.get('/products/:id', async (req, res) => {
 			const id = req.params.id;
-			console.log("Getiing specific id for emni", id);
+			// console.log("Getiing specific id for emni", id);
 			const query = { _id: ObjectId(id) };
 			const service = await productsCollection.findOne(query);
 			// console.log("from single item to check json i how", res.json(service))
@@ -130,7 +127,7 @@ async function run() {
 		//GET SUINGLE ITEM for order item
 		app.get('/orderItems/:id', async (req, res) => {
 			const id = req.params.id;
-			console.log("Getiing specific id for delete", id);
+			// console.log("Getiing specific id for delete", id);
 			const query = { _id: ObjectId(id) };
 			const order = await productOrderItems.findOne(query);
 			// console.log("from single item to check wether delete", res.json(service))
@@ -141,7 +138,6 @@ async function run() {
 		// POST API
 		app.post('/products', async (req, res) => {
 			const service = req.body;
-			console.log("hit the post api", service);
 			const result = await productsCollection.insertOne(service);
 			res.json(result);
 		});
@@ -149,10 +145,19 @@ async function run() {
 		// POST API for order items
 		app.post('/orderItems', async (req, res) => {
 			const orderItems = req.body;
-			console.log("hit the post api of order items", orderItems);
 			const result = await productOrderItems.insertOne(orderItems);
 			res.json(result);
 		});
+
+		// POST API FOR REVIEW
+		app.post('/review', async (req, res) => {
+			const review = req.body;
+			console.log("hit the post api of REVIEW", review);
+			const result = await usersReview.insertOne(review);
+			res.json(result);
+		});
+
+
 
 		//DELETE API
 		app.delete('/products/:id', async (req, res) => {
@@ -167,7 +172,7 @@ async function run() {
 		//DELETE API for order items
 		app.delete('/orderItems/:id', async (req, res) => {
 			const id = req.params.id;
-			console.log("delete hitted", id)
+			// console.log("delete hitted", id)
 			const query = { _id: ObjectId(id) };
 			const result = await productOrderItems.deleteOne(query);
 			res.json(result);
@@ -186,7 +191,7 @@ async function run() {
 				},
 			};
 			const result = await productOrderItems.updateOne(filter, updateDoc, options);
-			console.log('update user', id)
+			// console.log('update user', id)
 			res.json(result);
 		})
 
