@@ -187,5 +187,5 @@ app.get('/', (req, res) => {
 });
 
 app.listen(port, () => {
-	console.log('Running genius server on port', port);
+	console.log('Running BD Headphone Hub', port);
 })
