@@ -39,6 +39,7 @@ async function run() {
 			const filter = { email: user.email };
 			const updateDoc = { $set: { role: 'admin' } };
 			const result = await usersCollection.updateOne(filter, updateDoc);
+			console.log("admin hitted");
 			res.json(result);
 		})
 
@@ -56,8 +57,9 @@ async function run() {
 
 		// POST API FOR USERS
 		app.post('/users', async (req, res) => {
-			const user = req.body;
-			const result = await usersCollection.insertOne(user);
+			const users = req.body;
+			const result = await usersCollection.insertOne(users);
+			console.log("user is:", users)
 			res.json(result);
 		})
 
